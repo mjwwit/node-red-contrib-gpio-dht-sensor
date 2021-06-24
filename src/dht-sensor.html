@@ -1,0 +1,72 @@
+<script type="text/javascript">
+  RED.nodes.registerType('dht-sensor',{
+      category: 'sensor',
+      color: '#87A980',
+      defaults: {
+        name: { value: '' },
+        sensorType: { value: 22, required: true, validate: (type) => [11, 22].includes(Number(type)) },
+        gpioPin: { value: 4, required: true, validate: (pin) => Number(pin) >= 0 },
+        maxRetries: { value: 0, required: true, validate: (pin) => Number(pin) >= 0 }
+      },
+      align: 'left',
+      inputs: 1,
+      outputs: 1,
+      inputLabels: 'read sensor',
+      outputLabels: ['measured temperature and humidity'],
+      icon: 'font-awesome/fa-thermometer',
+      label: function () {
+          return this.name || 'dht-sensor';
+      }
+  });
+</script>
+
+<script type="text/html" data-template-name="dht-sensor">
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-sensorType"><i class="fa fa-temperature"></i> Sensor type</label>
+    <select id="node-input-sensorType">
+      <option value="11">DHT11</option>
+      <option value="22">DHT22 / AM2302</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-gpioPin"><i class="fa fa-hashtag"></i> GPIO Pin</label>
+    <input type="number" id="node-input-gpioPin" min="0">
+  </div>
+  <div class="form-row">
+    <label for="node-input-maxRetries"><i class="fa fa-repeat"></i> Maximum number of retries</label>
+    <input type="number" id="node-input-maxRetries" min="0">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="dht-sensor">
+  <p>Reads the current temperature and humidity from a DHT11, DHT22, or AM2302 sensor connected over GPIO.</p>
+  <h3>Inputs</h3>
+  <p>Any message can be used as an input, there are no requirements.</p>
+
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+    <dt>payload
+      <span class="property-type">Object</span>
+    </dt>
+    <dd> the measured temperature and humidity by the sensor.</dd>
+
+    <dt>payload.temperature
+      <span class="property-type">string</span>
+    </dt>
+    <dd> the measured temperature in °C.</dd>
+
+    <dt>payload.humidity
+      <span class="property-type">number</span>
+    </dt>
+    <dd> the measured humidity level in %.</dd>
+  </dl>
+
+  <h3>References</h3>
+  <ul>
+    <li><a href="https://github.com/mjwwit/node-red-contrib-gpio-dht-sensor#dht-sensor">GitHub</a> - the nodes GitHub repository</li>
+  </ul>
+</script>
